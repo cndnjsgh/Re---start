@@ -10,7 +10,7 @@ import { GetMyBoardResDto } from 'src/ResponesDto/get.my.board.res';
 import { AllBoardResDto } from 'src/ResponesDto/allboard.res';
 import { DeleteBoardReqDto } from 'src/RequestDto/deleteboard.req';
 import { DeleteBoardResDto } from 'src/ResponesDto/deleteboard.res';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 
 @Controller('board')
@@ -31,6 +31,10 @@ export class BoardController {
     })
     @UseGuards(AuthGuard)
     @Post('')
+    @ApiOperation({
+                summary: '게시글 작성',
+                description: '게시글 작성'
+            })
     async CreateBoard(@Request() req,@Body() body: CreateBoardReqDto):Promise<CreateBoardResDto>{
         const userpayload:User = req.user;
         return this.boardService.CreateBoard(userpayload,body);
@@ -43,6 +47,10 @@ export class BoardController {
     })
     @UseGuards(AuthGuard)
     @Patch()
+    @ApiOperation({
+                summary: '게시글 수정',
+                description: '내가 작성한 게시글 수정'
+            })
     async EditBoard(@Request() req, @Body() body:EditBoardReqDto):Promise<EditBoardResDto>{
         const userpayload:User = req.user;
         return this.boardService.EditBoard(userpayload,body);
@@ -55,6 +63,10 @@ export class BoardController {
     })
     @UseGuards(AuthGuard)
     @Get('myboard')
+    @ApiOperation({
+                summary: '내 게시글 조회',
+                description: '게시글 내가 작성한 게시글 조회'
+            })
     async GetMyBoard(@Request() req):Promise<GetMyBoardResDto>{
         const userpayload:User = req.user;
         return this.boardService.GetMyBoard(userpayload);
@@ -66,6 +78,10 @@ export class BoardController {
         description: '모든 게시글을 조회 하였습니다!',
     })
     @Get('allboard')
+    @ApiOperation({
+                summary: '모든 게시글 조회',
+                description: '모든 게시글 조회'
+            })
     async AllBoard():Promise<AllBoardResDto>{
         return this.boardService.AllBoard();
     }
@@ -81,6 +97,10 @@ export class BoardController {
     })
     @UseGuards(AuthGuard)
     @Delete()
+    @ApiOperation({
+                summary: '게시글 삭제',
+                description: '내가 작성한 게시글 삭제'
+            })
     async DeleteBoard(@Request() req, @Body() body: DeleteBoardReqDto):Promise<DeleteBoardResDto>{
         const userpayload:User = req.user;
         return this.boardService.DeleteBoard(userpayload,body);
