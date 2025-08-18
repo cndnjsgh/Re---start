@@ -1,15 +1,15 @@
 import { Body, Controller, Delete, Get, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { BoardService } from './board.service';
 import { CreateBoardReqDto } from 'src/RequestDto/createboard.req';
-import { CreateBoardResDto } from 'src/ResponesDto/createboard.res';
+import { CreateBoardResDto } from 'src/ResponeseDto/createboard.res';
 import { User } from 'src/user_entity/user.entity';
 import { AuthGuard } from 'src/security/guard';
 import { EditBoardReqDto } from 'src/RequestDto/editboard.req';
-import { EditBoardResDto } from 'src/ResponesDto/editboard.res';
-import { GetMyBoardResDto } from 'src/ResponesDto/get.my.board.res';
-import { AllBoardResDto } from 'src/ResponesDto/allboard.res';
+import { EditBoardResDto } from 'src/ResponeseDto/editboard.res';
+import { GetMyBoardResDto } from 'src/ResponeseDto/get.my.board.res';
+import { AllBoardResDto } from 'src/ResponeseDto/allboard.res';
 import { DeleteBoardReqDto } from 'src/RequestDto/deleteboard.req';
-import { DeleteBoardResDto } from 'src/ResponesDto/deleteboard.res';
+import { DeleteBoardResDto } from 'src/ResponeseDto/deleteboard.res';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 
@@ -21,16 +21,12 @@ export class BoardController {
     }
 
     //게시글 작성
-    @ApiResponse({
-        status: 201,
-        description: '가입됐습니다!',
-    })
-    @ApiResponse({
-        status: 400,
-        description: '잘못된 입력입니다!',
-    })
     @UseGuards(AuthGuard)
     @Post('')
+    @ApiResponse({
+        status:201,
+        type:CreateBoardResDto,
+    })
     @ApiOperation({
                 summary: '게시글 작성',
                 description: '게시글 작성'
@@ -43,7 +39,7 @@ export class BoardController {
     //게시글 수정
     @ApiResponse({
         status: 200,
-        description: '수정되었습니다!',
+        type:EditBoardResDto
     })
     @UseGuards(AuthGuard)
     @Patch()
@@ -59,7 +55,7 @@ export class BoardController {
     //자기 게시글 조회(로그인중)
     @ApiResponse({
         status: 200,
-        description: '내 게시글을 조회 하였습니다!',
+        type:GetMyBoardResDto
     })
     @UseGuards(AuthGuard)
     @Get('myboard')
@@ -75,7 +71,7 @@ export class BoardController {
     //모든 게시글 조회
     @ApiResponse({
         status: 200,
-        description: '모든 게시글을 조회 하였습니다!',
+        type: AllBoardResDto
     })
     @Get('allboard')
     @ApiOperation({
@@ -87,16 +83,12 @@ export class BoardController {
     }
 
     //게시글 삭제(로그인중)
-    @ApiResponse({
-        status: 200,
-        description: '삭제되었습니다!',
-    })
-    @ApiResponse({
-        status: 404,
-        description: '찾을 수 없는 게시글입니다!',
-    })
     @UseGuards(AuthGuard)
     @Delete()
+    @ApiResponse({
+        status: 200,
+        type: DeleteBoardResDto,
+    })
     @ApiOperation({
                 summary: '게시글 삭제',
                 description: '내가 작성한 게시글 삭제'

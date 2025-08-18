@@ -2,9 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from 'src/board_entity/board.entity';
-import { UserInfoResDto } from 'src/ResponesDto/userinfo.respones';
-import { UserListResDto } from 'src/ResponesDto/userlist.respones';
-import { UserListInfoResDto } from 'src/ResponesDto/userlistinfo.respones';
+import { UserInfoResDto } from 'src/ResponeseDto/userinfo.respones';
+import { UserListResDto } from 'src/ResponeseDto/userlist.respones';
+import { UserListInfoResDto } from 'src/ResponeseDto/userlistinfo.respones';
 import { User } from 'src/user_entity/user.entity';
 import { Repository } from 'typeorm';
 
