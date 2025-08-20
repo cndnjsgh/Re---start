@@ -15,4 +15,9 @@ export class CreateBoardResDto{
     })
     @IsString()
     success_message: string
+
+    constructor(_user_name:string,_success_message:string){
+        this.user_name = _user_name;
+        this.success_message = _success_message;
+    }
 }

@@ -20,8 +20,11 @@ export class UserService {
     
     //자신 정보 조회
     async UserInfo(userpayload:User):Promise<UserInfoResDto>{
+        if(!userpayload.user_id){
+            throw new BadRequestException();
+        }
         const finduser = await this.userRepository.findOne({where:{user_id:userpayload.user_id}});
-        if(!finduser){
+        if(!finduser||!finduser.user_id||!finduser.user_name||!finduser.user_pw){
             throw new NotFoundException();
         }
         const board_count = await this.boardRepository.count({where:{user:finduser}});
@@ -45,6 +48,9 @@ export class UserService {
         const user_list:UserListInfoResDto = new UserListInfoResDto()
         for(let i=0;i<user_count;i++){
             const user:UserListResDto = new UserListResDto(); 
+            if(!list[i].user_name){
+                throw new BadRequestException();
+            }
             user.user_name = list[i].user_name;
             user.board_count = await this.boardRepository.count({where:{user:list[i]}});
             user_list.user_list[i] = user;

@@ -21,19 +21,20 @@ export class BoardService {
         private readonly boardRepository:Repository<Board>,
         @InjectRepository(User)
         private readonly userRepository:Repository<User>
-
+        //private readonly 쓰는이유
+        //let 말고 const를 쓰는 이유
     ){}
 
     //게시글 작성
     async CreateBoard(userpayload:User, body:CreateBoardReqDto):Promise<CreateBoardResDto>{
         const user = await this.GetUserByPayload(userpayload);
+        if(!user.user_name){
+            throw new BadRequestException();
+        }
         const board:Board = new Board();
-        board.BoardSetter(user,body);
+        board.boardSetter(user,body);
         await this.boardRepository.save(board);
-        const text:CreateBoardResDto = new CreateBoardResDto();
-        text.success_message='게시물을 작성하였습니다!';
-        text.user_name = user.user_name;
-        return text;
+        return new CreateBoardResDto(user.user_name,'게시물을 작성하였습니다!'); //4줄 1줄로 줄여보기
     }
 
     //게시글 수정
@@ -75,6 +76,9 @@ export class BoardService {
                 throw new NotFoundException();
             }
             user.user = finduser.user;
+            if(!user.user.user_name){
+                throw new BadRequestException();
+            }
             board_list.user_name[i] = user.user.user_name;
             board_list.board_title[i] = board.board[i].board_title;
             board_list.board_description[i] = board.board[i].board_description;
@@ -97,6 +101,9 @@ export class BoardService {
 
     //payload에서 가져온 정보로 유저를 정보 전체를 가져오는 함수
     async GetUserByPayload(userpayload:User):Promise<User>{
+        if(!userpayload.user_id){
+            throw new BadRequestException();
+        }
         const user_data = await this.userRepository.findOne({where:{user_id:userpayload.user_id}});
         if(!user_data){
             throw new BadRequestException();

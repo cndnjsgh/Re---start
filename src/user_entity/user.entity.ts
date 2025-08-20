@@ -7,14 +7,17 @@ export class User{
     @PrimaryGeneratedColumn()
     PK: number;
 
-    @Column()
-    user_id:string;
+    @Column({type:'varchar',nullable:true})
+    user_id:string|null;
 
-    @Column()
-    user_pw:string;
+    @Column({type:'varchar',nullable:true})
+    user_pw:string|null;
 
-    @Column()
-    user_name:string;
+    @Column({type:'varchar',nullable:true})
+    user_name:string|null;
+
+    @Column({default:true})
+    isActive: boolean;
 
     @Column({type:'varchar' , nullable:true})
     refreshtoken:string|null;

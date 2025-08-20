@@ -16,7 +16,7 @@ export class Board{
     @ManyToOne(()=> User,{cascade:true})
     user: User;
 
-    BoardSetter(user:User,board:CreateBoardReqDto){
+    boardSetter(user:User,board:CreateBoardReqDto){ //(앞에 소문자)
         this.board_title = board.board_title;
         this.board_description = board.board_description;
         this.user = user;
