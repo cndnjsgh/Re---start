@@ -8,5 +8,6 @@ export class UnRegisterResponseDto{
     success_text:string;
 
     constructor(){
+        
     }
 }
